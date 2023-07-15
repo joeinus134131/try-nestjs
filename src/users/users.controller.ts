@@ -1,10 +1,21 @@
-import { Controller, Get, Req} from "@nestjs/common";
-import { Request } from 'express';   
+// import { Controller, Get, Request, Post, UseGuards } from '@nestjs/common';
+// import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+// import { LocalAuthGuard } from './auth/local-auth.guard';
+// import { AuthService } from './auth/auth.service';
 
-@Controller('users')
-export class UsersController {
-    @Get()
-    findAll(@Req() request: Request): string {
-        return 'This action returns all cats';
-    }
-}
+// @Controller()
+// export class UserController {
+//   constructor(private authService: AuthService) {}
+
+//   @UseGuards(JwtAuthGuard)
+//   @Post('auth/login')
+//   async login(@Request() req) {
+//     return this.authService.login(req.user);
+//   }
+
+//   @UseGuards(JwtAuthGuard)
+//   @Get('profile')
+//   async getProfile(@Request() req) {
+//     return req.user;
+//   }
+// }

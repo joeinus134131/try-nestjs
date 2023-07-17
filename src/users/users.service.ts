@@ -19,5 +19,5 @@ export class UsersService {
     
       async findOne(username: string): Promise<user | undefined> {
         return this.users.find(user => user.username === username);
-      }    
+      }
 }

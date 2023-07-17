@@ -1,4 +1,31 @@
+// {
+//   "singleQuote": true,
+//   "trailingComma": "all"
+// }
+
+// {
+//   "plugins": ["prettier"],
+//   "rules": {
+//     "prettier/prettier": "error"
+//   }
+// }
+
+// {
+//   "extends": ["prettier"],
+//   "plugins": ["prettier"],
+//   "rules": {
+//     "prettier/prettier": "error",
+//     "arrow-body-style": "off",
+//     "prefer-arrow-callback": "off"
+//   }
+// }
+
 {
-  "singleQuote": true,
-  "trailingComma": "all"
+  "prettier/prettier": [
+    "error",
+    {
+      "singleQuote": true,
+      "parser": "flow"
+    }
+  ]
 }

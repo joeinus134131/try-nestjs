@@ -20,7 +20,7 @@ export class UsersService {
 
     async createUserMaster(dto: CreatedUsersDto) {
       let hashedPassword = await this.encryptService.bcrypt_hash(dto.password);
-      const check = await this.prismaService.$queryRaw`SELECT id FROM user WHERE email = fn_aes_encrypt(${dto.email},${process.env.SECRET_AES})`;
+      const check = await this.prismaService.$queryRaw`SELECT id FROM user WHERE email = ${dto.email}`;
       const email_check = check[0];
 
       let response = {};
@@ -32,7 +32,7 @@ export class UsersService {
           };
       } else { 
           try {
-              await this.prismaService.$queryRaw`INSERT INTO user(email, password) VALUES( fn_aes_encrypt(${dto.email},${process.env.SECRET_AES}), ${hashedPassword})`;
+              await this.prismaService.$queryRaw`INSERT INTO user(email, password) VALUES(${dto.email}, ${hashedPassword})`;
 
               response = {
                 status: 'success',

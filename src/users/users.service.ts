@@ -15,7 +15,25 @@ export class UsersService {
     ){}
     
     async findOne(id: number){
-      return this.prismaService.users.findUnique({ where: { id: id } });
+      // return this.prismaService.users.findUnique({ where: { id: id } });
+      const user_data = await this.prismaService.$queryRaw`SELECT
+          a.id,
+          a.username,
+          a.email,
+          a.fullname,
+          a.phone,
+          b.bdate,
+          b.gender,
+          b.photos,
+          b.education,
+          b.address,
+          b.notes
+      FROM
+          users AS a
+          INNER JOIN persons AS b ON a.id_persons = b.id
+      WHERE a.id = ${id}`;
+      const data = user_data[0];
+      return data;
     }    
 
     async createUserMaster(dto: CreatedUsersDto) {
@@ -32,7 +50,12 @@ export class UsersService {
           };
       } else { 
           try {
-              await this.prismaService.$queryRaw`INSERT INTO users(username, email, password, fullname, phone) VALUES(${dto.username}, ${dto.email}, ${hashedPassword}, ${dto.fullname}, ${dto.phone})`;
+              await this.prismaService.$queryRaw`INSERT INTO persons(bdate, gender, photos, education, address, notes) VALUES(${dto.bdate}, ${dto.gender}, ${dto.photos}, ${dto.education}, ${dto.address}, ${dto.notes})`;
+              
+              const persons = await this.prismaService.$queryRaw`SELECT id FROM persons WHERE id IN (SELECT MAX(id) FROM persons)`;
+              const person_id = persons[0].id;
+
+              await this.prismaService.$queryRaw`INSERT INTO users(id_persons, username, email, password, fullname, phone) VALUES(${person_id}, ${dto.username}, ${dto.email}, ${hashedPassword}, ${dto.fullname}, ${dto.phone})`;
 
               response = {
                 status: 'success',

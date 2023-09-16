@@ -31,4 +31,16 @@ export class UsersController {
             result
         };
     }
+
+    @ApiTags('users')
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
+    @Get('/count')
+    async countUserMaster(){
+        const result = await this.usersService.countUsers();
+        return {
+            statusCode: HttpStatus.OK,
+            result
+        };
+    }
 }

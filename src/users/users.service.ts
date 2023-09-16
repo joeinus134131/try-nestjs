@@ -22,6 +22,7 @@ export class UsersService {
           a.email,
           a.fullname,
           a.phone,
+          a.created_at,
           b.bdate,
           b.gender,
           b.photos,
@@ -34,7 +35,17 @@ export class UsersService {
       WHERE a.id = ${id}`;
       const data = user_data[0];
       return data;
-    }    
+    }
+
+    async countUsers(){
+      const result =  (await this.prismaService.users.count()) as unknown as number;
+      if(!result){
+        return null;
+      }
+      else{
+        return Number((Math.round(((Number)(result)/1)*1e2))/1e2);
+      }
+    }
 
     async createUserMaster(dto: CreatedUsersDto) {
       let hashedPassword = await this.encryptService.bcrypt_hash(dto.password);

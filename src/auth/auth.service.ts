@@ -17,7 +17,7 @@ export class AuthService {
   ) {}
 
   async checkLogin(email: string){
-    const user = await this.prismaService.$queryRaw`SELECT id, email, a.password FROM user a WHERE email = email`;
+    const user = await this.prismaService.$queryRaw`SELECT id, email, a.password FROM users a WHERE email = email`;
     const result = user[0];
     return result;
   }

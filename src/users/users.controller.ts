@@ -11,9 +11,11 @@ export class UsersController {
         private readonly usersService: UsersService
     ) { }
     @ApiTags('users')
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
     @Get('/detail')
-    async findAll(username) {
-        const result = await this.usersService.findOne(username);
+    async findAll(@Request() req) {
+        const result = await this.usersService.findOne(req.user.userId);
         return {
             statusCode: HttpStatus.OK,
             result
@@ -21,8 +23,6 @@ export class UsersController {
     }
 
     @ApiTags('users')
-    @ApiBearerAuth()
-    @UseGuards(JwtAuthGuard)
     @Post('/create')
     async createUserMaster(@Body() dto: CreatedUsersDto){
         const result = await this.usersService.createUserMaster(dto);

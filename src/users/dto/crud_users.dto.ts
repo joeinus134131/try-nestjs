@@ -3,6 +3,8 @@ import { IsNotEmpty } from 'class-validator';
 
 export class CreatedUsersDto{
   
+  @ApiProperty()
+  username: string;
   // username : mandatory
   @ApiProperty()
   @IsNotEmpty()
@@ -12,4 +14,8 @@ export class CreatedUsersDto{
   @ApiProperty()
   @IsNotEmpty()
   password: string;
+  @ApiProperty()
+  fullname: string;
+  @ApiProperty()
+  phone: string;
 }

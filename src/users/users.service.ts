@@ -4,7 +4,7 @@ import { CreatedUsersDto } from './dto/crud_users.dto';
 import { EncryptService } from 'src/lib/encrypt/encrypt.service';
 import { DecryptService } from 'src/lib/decrypt/decrypt.service'
 
-export type user = any;
+export type users = any;
 
 @Injectable()
 export class UsersService {
@@ -14,13 +14,13 @@ export class UsersService {
       private decryptService: DecryptService
     ){}
     
-    async findOne(email: string): Promise<user | undefined> {
-      return this.prismaService.user.findUnique({ where: { email } });
-    }
+    async findOne(id: number){
+      return this.prismaService.users.findUnique({ where: { id: id } });
+    }    
 
     async createUserMaster(dto: CreatedUsersDto) {
       let hashedPassword = await this.encryptService.bcrypt_hash(dto.password);
-      const check = await this.prismaService.$queryRaw`SELECT id FROM user WHERE email = ${dto.email}`;
+      const check = await this.prismaService.$queryRaw`SELECT id FROM users WHERE email = ${dto.email}`;
       const email_check = check[0];
 
       let response = {};
@@ -32,7 +32,7 @@ export class UsersService {
           };
       } else { 
           try {
-              await this.prismaService.$queryRaw`INSERT INTO user(email, password) VALUES(${dto.email}, ${hashedPassword})`;
+              await this.prismaService.$queryRaw`INSERT INTO users(username, email, password, fullname, phone) VALUES(${dto.username}, ${dto.email}, ${hashedPassword}, ${dto.fullname}, ${dto.phone})`;
 
               response = {
                 status: 'success',

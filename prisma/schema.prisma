@@ -9,16 +9,16 @@ datasource db {
 
 model users {
   id         Int       @id @default(autoincrement())
-  id_persons Int?
   username   String?   @db.VarChar(255)
   email      String?   @unique
   password   String?   @db.VarChar(255)
   fullname   String?   @db.VarChar(255)
   phone      String?   @db.VarChar(255)
-  created_at DateTime? @db.Timestamp(0)
-  created_by String?   @db.VarChar(225)
-  updated_at DateTime? @db.Timestamp(0)
-  updated_by String?   @db.VarChar(225)
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  created_by String?   @default("System") @db.VarChar(225)
+  id_persons Int?
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_by String?   @default("System") @db.VarChar(225)
 }
 
 model persons {
@@ -30,8 +30,19 @@ model persons {
   address    String?   @db.VarChar(225)
   notes      String?   @db.VarChar(225)
   is_deleted Int?
-  created_at DateTime? @db.Timestamp(0)
-  created_by String?   @db.VarChar(225)
-  updated_at DateTime? @db.Timestamp(0)
-  updated_by String?   @db.VarChar(225)
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  created_by String?   @default("System") @db.VarChar(225)
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_by String?   @default("System") @db.VarChar(225)
+}
+
+model cats_type {
+  id         Int       @id @default(autoincrement())
+  name        String?   @db.VarChar(225)
+  type        String?   @db.VarChar(225)
+  is_deleted Int?
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  created_by String?   @default("System") @db.VarChar(225)
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_by String?   @default("System") @db.VarChar(225)
 }

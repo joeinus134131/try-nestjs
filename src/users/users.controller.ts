@@ -1,6 +1,6 @@
 import { Controller, Param, Get, UseGuards, Res, Body, Post, HttpStatus, Request, Delete, UseInterceptors, UploadedFile, Query } from "@nestjs/common";
 import { UsersService } from "./users.service";
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiHeader, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CreatedUsersDto } from './dto/crud_users.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -15,6 +15,7 @@ export class UsersController {
     @UseGuards(JwtAuthGuard)
     @Get('/detail')
     async findAll(@Request() req) {
+        console.log(req.user.userId)
         const result = await this.usersService.findOne(req.user.userId);
         return {
             statusCode: HttpStatus.OK,
@@ -40,7 +41,6 @@ export class UsersController {
         const result = await this.usersService.countUsers();
         return {
             statusCode: HttpStatus.OK,
-            result
         };
     }
 }

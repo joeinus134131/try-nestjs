@@ -1,18 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/lib/prisma/prisma.service';
+import { PrismaService } from '../lib/prisma/prisma.service';
 import { CreatedUsersDto } from './dto/crud_users.dto';
-import { EncryptService } from 'src/lib/encrypt/encrypt.service';
-import { DecryptService } from 'src/lib/decrypt/decrypt.service'
+import { EncryptService } from '../lib/encrypt/encrypt.service';
+import { DecryptService } from '../lib/decrypt/decrypt.service';
 
 export type users = any;
 
 @Injectable()
 export class UsersService {
+    env: string;
     constructor(
       private readonly prismaService: PrismaService,
       private encryptService: EncryptService,
       private decryptService: DecryptService
-    ){}
+    ){
+      this.env = process.env.PRODUCTION;
+    }
     
     async findOne(id: number){
       // return this.prismaService.users.findUnique({ where: { id: id } });
@@ -75,7 +78,7 @@ export class UsersService {
           } catch(error){
               response = {
                 status: "failed",
-                message: "Failed to insert data"
+                message: (this.env == "TRUE") ? "Failed to insert data" : error.message
               };
           }
       }

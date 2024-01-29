@@ -10,10 +10,11 @@ import { UsersModule } from './users/users.module';
 import { PrismaModule } from './lib/prisma/prisma.module';
 import { EncryptService } from './lib/encrypt/encrypt.service';
 import { DecryptService } from './lib/decrypt/decrypt.service';
+import { CatsModule } from './cats/cats.module';
 
 
 @Module({
-  imports: [PrismaModule, AuthModule, UsersModule],
+  imports: [PrismaModule, AuthModule, UsersModule, CatsModule],
   controllers: [AppController],
   providers: [AppService, EncryptService, DecryptService],
 })
